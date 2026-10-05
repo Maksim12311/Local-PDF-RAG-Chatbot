@@ -9,10 +9,7 @@ from deepeval.metrics import (
 from deepeval.models import OllamaModel
 
 
-# -----------------------------------
-# Local evaluator model
-# -----------------------------------
-
+# Local evaluator mode
 evaluation_model = OllamaModel(
     model="llama3.1",
     base_url="http://localhost:11434",
@@ -20,10 +17,8 @@ evaluation_model = OllamaModel(
 )
 
 
-# -----------------------------------
-# Example RAG results
-# -----------------------------------
 
+# Example RAG results
 test_cases = [
     LLMTestCase(
         input="Who is the author?",
@@ -51,10 +46,8 @@ test_cases = [
 ]
 
 
-# -----------------------------------
-# Metrics
-# -----------------------------------
 
+# Metrics
 answer_relevancy = AnswerRelevancyMetric(
     threshold=0.5,
     model=evaluation_model,
@@ -74,10 +67,8 @@ context_relevancy = ContextualRelevancyMetric(
 )
 
 
-# -----------------------------------
-# Run evaluation
-# -----------------------------------
 
+# Run evaluation
 evaluate(
     test_cases=test_cases,
     metrics=[
