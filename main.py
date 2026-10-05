@@ -10,18 +10,14 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 
-# ---------------------------------------------------------
-# SETTINGS
-# ---------------------------------------------------------
 
+# SETTINGS
 MODEL_NAME = "llama3.1"
 EMBEDDING_MODEL = "nomic-embed-text"
 
 
-# ---------------------------------------------------------
-# LOAD LLM
-# ---------------------------------------------------------
 
+# LOAD LLM
 @st.cache_resource
 def get_llm():
     return ChatOllama(
@@ -30,10 +26,8 @@ def get_llm():
     )
 
 
-# ---------------------------------------------------------
-# LOAD EMBEDDING MODEL
-# ---------------------------------------------------------
 
+# LOAD EMBEDDING MODEL
 @st.cache_resource
 def get_embedding():
     return OllamaEmbeddings(
@@ -41,10 +35,8 @@ def get_embedding():
     )
 
 
-# ---------------------------------------------------------
-# BUILD VECTOR DATABASE FROM PDF
-# ---------------------------------------------------------
 
+# BUILD VECTOR DATABASE FROM PDF
 def build_vectorstore_from_pdf(uploaded_file):
 
     if uploaded_file is None:
@@ -97,10 +89,8 @@ def build_vectorstore_from_pdf(uploaded_file):
             os.remove(pdf_path)
 
 
-# ---------------------------------------------------------
-# CREATE RAG CHAIN
-# ---------------------------------------------------------
 
+# CREATE RAG CHAIN
 def make_rag_chain(vectorstore, k: int, answer_style: str):
 
     retriever = vectorstore.as_retriever(
@@ -188,10 +178,8 @@ Answer:
     return ask_question, retriever
 
 
-# ---------------------------------------------------------
-# SESSION STATE
-# ---------------------------------------------------------
 
+# SESSION STATE
 def init_session_state():
 
     if "vectorstore" not in st.session_state:
@@ -204,10 +192,8 @@ def init_session_state():
         st.session_state.pdf_name = None
 
 
-# ---------------------------------------------------------
-# MAIN STREAMLIT APPLICATION
-# ---------------------------------------------------------
 
+# MAIN STREAMLIT APPLICATION
 def main():
 
     st.set_page_config(
@@ -218,20 +204,16 @@ def main():
 
     init_session_state()
 
-    # -----------------------------------------------------
+    
     # HEADER
-    # -----------------------------------------------------
-
     st.title("📄 PDF Q&A with LLaMA 3.1")
 
     st.caption(
         "Upload a PDF and ask questions about its content."
     )
 
-    # -----------------------------------------------------
+   
     # SIDEBAR
-    # -----------------------------------------------------
-
     with st.sidebar:
 
         st.header("Settings")
@@ -306,9 +288,8 @@ def main():
 
             st.rerun()
 
-    # -----------------------------------------------------
+
     # PDF STATUS
-    # -----------------------------------------------------
 
     if st.session_state.vectorstore is None:
 
@@ -322,10 +303,8 @@ def main():
         f"Current PDF: {st.session_state.pdf_name}"
     )
 
-    # -----------------------------------------------------
+   
     # DISPLAY CHAT HISTORY
-    # -----------------------------------------------------
-
     for message in st.session_state.chat_history:
 
         with st.chat_message(
@@ -336,9 +315,8 @@ def main():
                 message["content"]
             )
 
-    # -----------------------------------------------------
+    
     # USER QUESTION
-    # -----------------------------------------------------
 
     question = st.chat_input(
         "Ask a question about your PDF..."
@@ -359,9 +337,9 @@ def main():
             }
         )
 
-        # -------------------------------------------------
+       
         # CREATE RAG
-        # -------------------------------------------------
+       
 
         try:
 
@@ -383,9 +361,9 @@ def main():
 
                 st.markdown(answer)
 
-                # -----------------------------------------
+                
                 # SHOW SOURCES
-                # -----------------------------------------
+                
 
                 with st.expander(
                     "View retrieved PDF context"
@@ -438,9 +416,9 @@ def main():
             )
 
 
-# ---------------------------------------------------------
+
 # RUN APP
-# ---------------------------------------------------------
+
 
 if __name__ == "__main__":
     main()
