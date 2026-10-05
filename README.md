@@ -1,6 +1,7 @@
 Local PDF RAG Chatbot
 This project is a local Retrieval-Augmented Generation (RAG) application that allows users to upload a PDF and ask questions about its content.
 The system uses Python, Streamlit, LangChain, Ollama, Llama 3.1, ChromaDB, and DeepEval. Everything runs locally, so no paid API is required.
+
 Features:
 - Upload a PDF file
 - Extract text from the PDF
@@ -13,6 +14,7 @@ Features:
 - Choose the number of retrieved chunks
 - Choose between concise, detailed, and step-by-step answer styles
 - Evaluate the RAG system with DeepEval
+
 How it works:
 PDF → Text extraction → Text chunks → Embeddings → ChromaDB → User question → Relevant chunks retrieved → Llama 3.1 → Answer
 When a user asks a question, ChromaDB searches for the most relevant parts of the uploaded PDF. These chunks are then passed to Llama 3.1 together with the question. The model is instructed to answer only using information from the document.
@@ -22,6 +24,7 @@ evaluate.py
 requirements.txt
 README.md
 .gitignore
+
 Installation:
 1. Install Ollama from:
    https://ollama.com/
